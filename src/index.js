@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import Button from './button';
 
 import './css/style.css'
 
@@ -20,6 +21,7 @@ const myMap = new Map([
     [newdocument.title, newdocument.content]
 ]);
 
+
 // Major Webpage Components
 
 let navBar = (
@@ -31,22 +33,22 @@ let navBar = (
         </ul>
     </div>
 )
-let container = (
+
+function Container() {
+  const [tabIndex, setTabIndex] = useState([{index: 1}, {index: 2}]);
+  return (
     //Project Index: Left Hand Side
     <div className ="container">
         <div className="document-index tab" id="document-index">
             <div className="document-element">
-                <button type="button"
-                    onClick= {createDocument}
-                    className="btn"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Bold Text">
-                +</button>
+
+              {tabIndex.map(button => <Button/>)}
+
             </div>
         </div>
     </div>
 )
+}
 let mainTab = (
     //Working Document Area: Center
     <div className="flex-box">
@@ -85,21 +87,18 @@ const root1 = ReactDOM.createRoot(document.getElementById('root1'));
 const root2 = ReactDOM.createRoot(document.getElementById('root2'));
 //const root3 = ReactDOM.createRoot(document.getElementById('root3'));
 root.render(navBar);
-root1.render(container);
+
+root1.render(<Container/>);
 root2.render(mainTab);
-//root3.render(objectWindows);
+//root3.render(RenderIndex());
 
 
-
-/*function createDocument(){
-    console.log('This!')
-    console.log(document.getElementById('document-index'));
-    // Declare all variables
-    var i, tablinks;
+function RenderIndex(props) {
+  const index = props
+  return index.map((index) => index);
 }
 
 
-*/
 function CreateButton({ title, children }) {
   return (
     <button className = {title + ' active'} onClick={() => openDocument(title)}>
@@ -143,7 +142,7 @@ function openDocument(docName) {
       document.getElementById("mainText").innerHTML = myMap.get(docName);
 }
 
-function createDocument(){
+function createDocument(props){
     const newObject = new documentProject('New-Document' + newDocIndex, 'This is a new document');
     newDocIndex ++;
 
@@ -157,8 +156,7 @@ function createDocument(){
     //newButton.addEventListener("click", (event) => {
       //openDocument(event, newButton.innerHTML);
       //});
-    let tab = <CreateTab title= {newObject.title} children= {newObject.content}></CreateTab>
-    console.log(tab)
+
     //document.getElementById("tab").appendChild(tab);
     // Create a tab on the index of documents
     const indexButton = document.createElement('button');
@@ -198,7 +196,7 @@ function createDocument(){
 ////// Need to Figure out new button Text
       return false;
       }, false);
-      document.getElementById("document-index").appendChild(indexButton);
+      //document.getElementById("document-index").appendChild(indexButton);
       console.log(myMap);
 }
 /*
