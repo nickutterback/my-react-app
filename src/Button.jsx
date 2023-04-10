@@ -1,5 +1,4 @@
-const Button = ({ yeet, children, onClick }) => {
-  console.log(yeet);
+const Button = ({ children, onClick }) => {
   return (
     <div
       className="bg-red-500 hover:bg-red-600 hover:cursor-pointer"

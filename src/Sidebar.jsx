@@ -1,12 +1,13 @@
 import Button from "./Button";
 import { useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/solid";
-const Sidebar = ({ setTabs, setIsNaming }) => {
+import Tab from "./Tab";
+
+const Sidebar = ({ tabs, setTabs, selected, docRef, setIsNaming, setSelected }) => {
   const [count, setCount] = useState(0);
 
   const handleClick = () => {
     setIsNaming(true);
-    // setTabs((state) => [...state, { name: "danes tab" }]);
   };
 
   return (

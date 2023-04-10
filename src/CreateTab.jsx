@@ -7,7 +7,7 @@ function CreateTab({ setTabs, setIsNaming }) {
   const handleClick = (name) => {
     setTabs((state) => [
       ...state,
-      { name: name, body: `dane rules ${Math.random()}` },
+      { name: name, body: {__html: `This is a new document...` }},
     ]);
     setIsNaming(false);
   };

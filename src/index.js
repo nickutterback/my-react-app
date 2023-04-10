@@ -6,6 +6,8 @@ import "./css/index.css";
 import Tab from "./Tab";
 import CreateTab from "./CreateTab";
 import useLocalStorage from "./hooks/useLocalStorage";
+import TextMenu from "./TextMenu";
+import QuickLinks from "./QuickLinks";
 
 const Index = () => {
   const [tabs, setTabs] = useLocalStorage("tabs", []);
@@ -14,26 +16,9 @@ const Index = () => {
 
   return (
     <div className="h-screen w-screen flex flex-row">
-      <Sidebar setTabs={setTabs} setIsNaming={setIsNaming} />
-      <Container>
-        {isNaming && <CreateTab setTabs={setTabs} setIsNaming={setIsNaming} />}
-        {!isNaming && (
-          <div className="flex flex-row flex-wrap w-full">
-            {tabs.length ? (
-              tabs.map((tab) => (
-                <Tab data={tab} setSelected={setSelected} selected={selected} />
-              ))
-            ) : (
-              <div className="text-2xl font-bold">add a tab to get started</div>
-            )}
-          </div>
-        )}
-        {tabs
-          .filter((tab) => selected == tab.name)
-          .map((tab) => (
-            <div key={tab.name}>{tab.body}</div>
-          ))}
-      </Container>
+      <Sidebar isNaming = {isNaming} setIsNaming={setIsNaming} tabs={tabs} setTabs={setTabs} selected={selected} setSelected={setSelected} />
+      <Container isNaming = {isNaming} setIsNaming={setIsNaming} tabs={tabs} setTabs={setTabs} selected={selected} setSelected={setSelected} />
+      <QuickLinks/>
     </div>
   );
 };
