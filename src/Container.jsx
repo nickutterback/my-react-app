@@ -5,11 +5,11 @@ import CreateTab from "./CreateTab";
 import { tab } from "@testing-library/user-event/dist/tab";
 import TextMenu from "./TextMenu"
 
-function Container({ children, selected, setSelected, isNaming, setIsNaming, tabs, setTabs  }) {
-  const docRef = useRef();
+function Container({ children, selected, setSelected, isNaming, setIsNaming, tabs, setTabs, docRef, indices, setIndices }) {
+
   return (
     //Project Index: Left Hand Side
-    <div className="max-w-7xl  w-full h-full mx-auto">
+    <div className="max-w-7xl  w-3/4 h-full mx-auto flex-column">
         {/*Top Tabs of Document*/}
         {isNaming && <CreateTab setTabs={setTabs} setIsNaming={setIsNaming} />}
 
@@ -24,10 +24,12 @@ function Container({ children, selected, setSelected, isNaming, setIsNaming, tab
             )}
           </div>
         )}
-        <TextMenu/>
+
+        <TextMenu indices={indices} setIndices={setIndices} selected={selected}/>
+
         {/*Internal Document Content */}
         {tabs.filter((tab) => selected == tab.name).map((tab) => (
-            <div className='w-3/4 h-3/4 border-black border-2'key={tab.name} ref={docRef} contentEditable={true} dangerouslySetInnerHTML={tab.body}>
+            <div className='w-full h-3/4 border-black border-2 overflow-y-scroll flex-column'key={tab.name} ref={docRef} contentEditable={true} dangerouslySetInnerHTML={tab.body}>
             </div>
           ))}
     </div>
