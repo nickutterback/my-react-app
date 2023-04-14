@@ -1,8 +1,9 @@
 import QuickLinks from "./QuickLinks";
 import { useRef } from "react";
+import Anchor from './Anchor'
 
 function TextMenu({indices, setIndices, selected}) {
-
+  const sectionIdCounter = useRef(1);
   function anchor(){
     replaceSelectedText('section');
   }
@@ -22,16 +23,16 @@ function TextMenu({indices, setIndices, selected}) {
               range = sel.getRangeAt(0);
               let newText = sel.toString();
               range.deleteContents();
-                // create a new div element
-              const newElement = document.createElement(element);
-              newElement.className = 'inline'
-              // and give it some content
-              const newContent = document.createTextNode(newText);
-              // add the text node to the newly created div
-              newElement.appendChild(newContent);
-              range.insertNode(newElement);
-              if(element == 'section'){
 
+              if(element == 'section'){
+                const newElement = document.createElement(element);
+                newElement.className = 'inline'
+                // and give it some content
+                const newContent = document.createTextNode(newText);
+                // add the text node to the newly created div
+                newElement.appendChild(newContent);
+                range.insertNode(newElement);
+                // BUG@!!!! This section works when in document, but the anchor breaks when the document goes out of focus to another
                 setIndices((state) => [
                   ...state,
                   { tab: selected, anchor: newElement},
@@ -39,12 +40,39 @@ function TextMenu({indices, setIndices, selected}) {
 
                 console.log(newElement);
               }
+              else{
+                                  // create a new div element
+                const newElement = document.createElement(element);
+                newElement.className = 'inline'
+                // and give it some content
+                const newContent = document.createTextNode(newText);
+                // add the text node to the newly created div
+                newElement.appendChild(newContent);
+                range.insertNode(newElement);
               }
+          }
       } else {
         console.log("No text selected")
       }
     }
 
+    function handleAddSectionClick() {
+      const selection = window.getSelection();
+      const range = selection.getRangeAt(0);
+      const selectedText = range.toString().trim();
+
+      if (selectedText) {
+        const sectionId = `section-${sectionIdCounter.current}`;
+        range.surroundContents(document.createElement('span'));
+        range.commonAncestorContainer.lastChild.previousElementSibling.setAttribute('data-section', sectionId);
+        setIndices((state) => [
+          ...state,
+          { tab: selected, sectionId: sectionId},
+        ]);
+        sectionIdCounter.current += 1;
+        console.log(sectionIdCounter.current)
+      }
+    }
 
     return (
         <div>
@@ -57,7 +85,7 @@ function TextMenu({indices, setIndices, selected}) {
                 Italic
             </button>
             <button className="bg-red-500 hover:bg-red-600 hover:cursor-pointer p-3"
-            onClick={() => {anchor()}}>
+            onClick={() => handleAddSectionClick()}>
                 Anchor
             </button>
         </div>

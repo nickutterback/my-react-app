@@ -3,22 +3,29 @@ import { useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import Tab from "./Tab";
 
-const Sidebar = ({ tabs, setTabs, selected, docRef, setIsNaming, setSelected, indices }) => {
+const Sidebar = ({ tabs, setTabs, selected, docRef, setIsNaming, setSelected, indices ,anchorArray}) => {
 
   const [count, setCount] = useState(0);
 
   const handleAddClick = () => {
     setIsNaming(true);
   };
-  const handleIndicesClick = (doc) => {
-    if(doc.tab == selected){
+  //BUG@!!! This section works, until the doc.anchor element goes out of focus to another document
+  const handleIndicesClick = (index) => {
+    if(index.tab == selected){
       console.log("Yes!")
-      doc.anchor.scrollIntoView();
+      /*const divElement = doc.anchor
+      console.log(divElement); // logs <div>I'm an element</div>
+      divElement.scrollIntoView()*/
+      const sectionElement = document.querySelector(`[data-section="${index.sectionId}"]`);
+      console.log(sectionElement)
+      sectionElement.scrollIntoView({block: "nearest", inline: "nearest"});
+
     }
   };
 
   return (
-    <div className="left-0 h-full w-1/4 bg-gray-300 border-black border-2">
+    <div className="left-0 h-full w-1/8 bg-gray-300 border-black border-2">
       <Button onClick={handleAddClick}>
         <div className="flex flex-row items-center text-white">
           <div className="h-5 w-5 mr-2">

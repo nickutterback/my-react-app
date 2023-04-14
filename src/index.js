@@ -8,6 +8,8 @@ import CreateTab from "./CreateTab";
 import useLocalStorage from "./hooks/useLocalStorage";
 import TextMenu from "./TextMenu";
 import QuickLinks from "./QuickLinks";
+import NavBar from "./NavBar"
+import Anchor from './Anchor'
 
 const Index = () => {
   const [tabs, setTabs] = useLocalStorage("tabs", []);
@@ -15,15 +17,19 @@ const Index = () => {
   const [selected, setSelected] = useState(null);
   const [indices, setIndices] = useLocalStorage("indices", []);
   const docRef = useRef();
+  const anchorArray = [];
 
   return (
     <div className="h-screen w-screen">
-      <div className="h-3/4 w-screen flex flex-row">
-        <Sidebar isNaming = {isNaming} setIsNaming={setIsNaming} tabs={tabs} setTabs={setTabs} selected={selected} setSelected={setSelected} docRef={docRef} indices={indices} />
+      <div className = 'w-screen'>
+        <NavBar/>
+      </div>
+      <div className="h-4/6 w-screen flex flex-row">
+        <Sidebar isNaming = {isNaming} setIsNaming={setIsNaming} tabs={tabs} setTabs={setTabs} selected={selected} setSelected={setSelected} docRef={docRef} indices={indices} anchorArray={anchorArray}/>
         <Container isNaming = {isNaming} setIsNaming={setIsNaming} tabs={tabs} setTabs={setTabs} selected={selected} setSelected={setSelected} docRef={docRef} setIndices={setIndices} indices={indices}/>
       </div>
-      <div className="h-1/4 w-screen flex border border-black border-2">
-      <QuickLinks/>
+      <div className="h-1/6 w-screen flex border border-black border-2">
+        <QuickLinks/>
       </div>
     </div>
   );
